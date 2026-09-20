@@ -162,8 +162,16 @@ jobs:
             throw "pluginmaster.json contains an invalid FFXIVAura AssemblyVersion '$($probeVersion.Groups[1].Value)'."
           }
 
-          if ($publishedVersion -ge $sourceVersion) {
-            throw "FFXIVAura deployment version $sourceVersion must be newer than the published version $publishedVersion."
+          # A commit that changes the workflow, a comment or the docs has nothing to publish, and failing it
+          # would leave the repository permanently red between releases. Only a version that has gone
+          # backwards is a mistake worth stopping for.
+          if ($publishedVersion -eq $sourceVersion) {
+            Write-Host "DalamudPlugins is already up to date with FFXIVAura $sourceVersion."
+            exit 0
+          }
+
+          if ($publishedVersion -gt $sourceVersion) {
+            throw "FFXIVAura deployment version $sourceVersion is older than the published version $publishedVersion."
           }
 
           New-Item -ItemType Directory -Force -Path (Split-Path -Parent $targetPackage) | Out-Null
