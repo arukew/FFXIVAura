@@ -4,7 +4,7 @@
   "Punchline": "Small cooldown aura overlay powered by Dalamud.",
   "Description": "Dalamud-native FFXIVAura style cooldown overlay for FFXIV KR.",
   "InternalName": "FFXIVAura",
-  "AssemblyVersion": "1.0.0.2",
+  "AssemblyVersion": "1.0.0.3",
   "ApplicableVersion": "any",
   "RepoUrl": "https://github.com/arukew/FFXIVAura",
   "DalamudApiLevel": 15,
