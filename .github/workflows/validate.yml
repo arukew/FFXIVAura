@@ -121,7 +121,7 @@ jobs:
         if: ${{ (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/kr-custom' }}
         uses: actions/checkout@v7
         with:
-          repository: spar7453/DalamudPlugins
+          repository: arukew/DalamudPlugins
           ref: main
           token: ${{ secrets.PLUGIN_REPO_TOKEN }}
           path: plugin-repo
@@ -183,7 +183,7 @@ jobs:
 
             $entry = $entryMatch.Value
             $entry = [regex]::Replace($entry, '("AssemblyVersion"\s*:\s*)"[^"]+"', '${1}"' + $version + '"')
-            $entry = [regex]::Replace($entry, '("DownloadLink(?:Install|Update|Testing)"\s*:\s*"https://raw\.githubusercontent\.com/spar7453/DalamudPlugins/main/plugins/FFXIVAura/)[^"]+(\.zip")', '${1}' + $version + '${2}')
+            $entry = [regex]::Replace($entry, '("DownloadLink(?:Install|Update|Testing)"\s*:\s*"https://raw\.githubusercontent\.com/arukew/DalamudPlugins/main/plugins/FFXIVAura/)[^"]+(\.zip")', '${1}' + $version + '${2}')
             $updatedContent = $content.Substring(0, $entryMatch.Index) + $entry + $content.Substring($entryMatch.Index + $entryMatch.Length)
             [System.IO.File]::WriteAllText($indexFile, $updatedContent, [System.Text.UTF8Encoding]::new($false))
           }
