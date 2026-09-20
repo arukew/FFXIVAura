@@ -183,7 +183,9 @@ jobs:
 
             $entry = $entryMatch.Value
             $entry = [regex]::Replace($entry, '("AssemblyVersion"\s*:\s*)"[^"]+"', '${1}"' + $version + '"')
-            $entry = [regex]::Replace($entry, '("DownloadLink(?:Install|Update|Testing)"\s*:\s*"https://raw\.githubusercontent\.com/arukew/DalamudPlugins/main/plugins/FFXIVAura/)[^"]+(\.zip")', '${1}' + $version + '${2}')
+            # Match whoever owns the link today, not just the owner we are about to write, or a link left
+            # over from a previous owner matches nothing and stays pointing at an address that is gone.
+            $entry = [regex]::Replace($entry, '("DownloadLink(?:Install|Update|Testing)"\s*:\s*")https://raw\.githubusercontent\.com/[^/"]+/DalamudPlugins/main/plugins/FFXIVAura/[^"]+(\.zip")', '${1}https://raw.githubusercontent.com/arukew/DalamudPlugins/main/plugins/FFXIVAura/' + $version + '${2}')
             $updatedContent = $content.Substring(0, $entryMatch.Index) + $entry + $content.Substring($entryMatch.Index + $entryMatch.Length)
             [System.IO.File]::WriteAllText($indexFile, $updatedContent, [System.Text.UTF8Encoding]::new($false))
           }
