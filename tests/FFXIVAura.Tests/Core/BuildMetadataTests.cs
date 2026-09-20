@@ -29,7 +29,10 @@ internal static class BuildMetadataTests
 
         var workflow = File.ReadAllText(TestFiles.FindRepoFile(Path.Combine(".github", "workflows", "validate.yml")));
         True(
-            workflow.Contains("$publishedVersion -ge $sourceVersion", StringComparison.Ordinal),
-            "deployment must reject versions that are not newer than the published package");
+            workflow.Contains("$publishedVersion -eq $sourceVersion", StringComparison.Ordinal),
+            "deployment must skip a version it has already published, so commits between releases still pass");
+        True(
+            workflow.Contains("$publishedVersion -gt $sourceVersion", StringComparison.Ordinal),
+            "deployment must reject a version older than the published package");
     }
 }
